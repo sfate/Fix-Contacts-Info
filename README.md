@@ -9,7 +9,6 @@ which was exported to csv file.
 
 The code below will ask on questions howto use that:
 
-     ```ruby
      # load lib
      require 'fix_clients_info'
 
@@ -21,7 +20,6 @@ The code below will ask on questions howto use that:
 
      # get a first csv line
      csv_clients.show_first_row
-     ```
 
 ## TODO:
 
