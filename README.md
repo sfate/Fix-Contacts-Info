@@ -9,17 +9,14 @@ which was exported to csv file.
 
 The code below will ask on questions howto use that:
 
-     # load lib
-     require 'fix_clients_info'
-
-     # create an instance with file need to be fixed
-     csv_clients = FixClientsInfo::Csv.new(:file => "/path/to/file.csv")
-
-     # read it
-     csv_clients.read
-
-     # get a first csv line
-     csv_clients.show_first_row
+    # load lib
+    require 'fix_clients_info'
+    # create an instance with file need to be fixed
+    csv_clients = FixClientsInfo::Csv.new(:file => "/path/to/file.csv")
+    # read it
+    csv_clients.read
+    # get a first csv line
+    csv_clients.show_first_row
 
 ## TODO:
 
