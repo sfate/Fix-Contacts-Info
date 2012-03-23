@@ -9,7 +9,7 @@ which was exported to csv file.
 
 The code below will ask on questions howto use that:
 
-     ```Ruby
+     ```ruby
      # load lib
      require 'fix_clients_info'
 
