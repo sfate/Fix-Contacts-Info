@@ -16,8 +16,10 @@ which was exported to csv file.
      csv_clients = FixClientsInfo::Csv.new(:file => "/path/to/file.csv")
      # read it
      csv_clients.read
-     # get a first csv line
-     csv_clients.show_first_row
+     # get a csv line by line number (integer value)
+     # zero row is taken as header
+     # e.g.: to get first row type:
+     csv_clients.show_row(1)
      ```
 
 ## TODO:
@@ -27,5 +29,5 @@ which was exported to csv file.
 * [+] logic of data fix
 * [+] test
 
-## Version: 0.1.alpha (22 march 2012)
+## Version: 0.1.1 (29 march 2012)
 
