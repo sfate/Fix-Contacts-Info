@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "fix_clients_info"
-  s.version = "0.1.alpha"
-  s.summary = "Fixer!"
+  s.version = "0.1.1"
+  s.summary = "CSV clients fixer"
   s.description = "Simple lib for a contact sorting info"
 
   s.author = "Alex Mercer"
