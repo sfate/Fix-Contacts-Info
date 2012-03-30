@@ -66,7 +66,7 @@ module FixClientsInfo
             note = note.split(": ")
             # i'll be punished for that asap..
             note[0] = "E-mail Address" if note.first.include? "Email Address"
-            hash_notes[note.first] = note.last
+            hash_notes[note.first.strip] = note.last.strip
           end
         end
 
