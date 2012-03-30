@@ -44,9 +44,10 @@ module FixClientsInfo
     def fix_n_create(options={})
       create(options)
       @csv_loaded_file.size.times do |i|
+        ## break for a quick lib work check
+        ## break if i.eql? 10
         # dirty hack to skip first element
         i=i+1
-        break if i.eql? 10
         next if(i.eql? @csv_loaded_file.size)
 
         # get row
@@ -58,12 +59,13 @@ module FixClientsInfo
           current_row[field] = nil if current_row[field].nil?
         end
 
+        hash_notes = {}
         unless current_row["Notes"].nil?
           #main parse code will be there
-          hash_notes = {}
                notes = current_row["Notes"].split("\r\n")
           notes.each do |note|
             note = note.split(": ")
+            next if note.empty?
             # i'll be punished for that asap..
             note[0] = "E-mail Address" if note.first.include? "Email Address"
             hash_notes[note.first.strip] = note.last.strip
@@ -98,6 +100,7 @@ module FixClientsInfo
           end
         end
         @csv_new_file << full_row
+        puts i
       end
     end
 
