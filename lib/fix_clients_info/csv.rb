@@ -13,12 +13,13 @@ module FixClientsInfo
       @csv_loaded_header = @csv_loaded_file[0].delete_if(&:nil?) ; true
     end
 
-    def create(options={})
+    def create(options)
       raise ArgumentError, "No header row specified" if ( options[:header].nil? )
-      @csv_new_file = CSV.open(@csv_output_path)
-      @csv_new_file << options[:header]
-      @csv_new_header = @csv_new_file[0]
-      build_header ; true
+      build_header
+      @csv_new_file = CSV.open(@csv_output_path, 'w')
+      @csv_new_file << @csv_new_header #options[:header]
+      # @csv_new_header = @csv_new_file[0]
+      true
     end
 
     def show_row(row_number)
@@ -40,11 +41,12 @@ module FixClientsInfo
       current_row
     end
 
-    def fix_n_create
-      build_header
+    def fix_n_create(options={})
+      create(options)
       @csv_loaded_file.size.times do |i|
         # dirty hack to skip first element
         i=i+1
+        break if i.eql? 10
         next if(i.eql? @csv_loaded_file.size)
 
         # get row
@@ -63,7 +65,7 @@ module FixClientsInfo
           notes.each do |note|
             note = note.split(": ")
             # i'll be punished for that asap..
-            note.first = "E-mail Address" if note.first.include? "Email Address"
+            note[0] = "E-mail Address" if note.first.include? "Email Address"
             hash_notes[note.first] = note.last
           end
         end
@@ -72,7 +74,7 @@ module FixClientsInfo
         hash_notes.each do |note, value|
           unless (value.nil?)
             # if e-mail happenz and we have already email then write it to email 2 field.. otherwise write directly to email field
-            if(value == "E-mail Address" && not(current_row[value].nil? || current_row[value].include? "empt"))
+            if(value == "E-mail Address" && not(current_row[value].nil? || (current_row[value].include? "empt")))
               current_row["E-mail 2 Address"] = value
             else
               current_row[note] = value
@@ -83,8 +85,13 @@ module FixClientsInfo
         # add each row to new file
         full_row = []
         current_row.each do |key, value|
+          next if key.nil?
           # find coinciding key in row to index in header and write it to full row info
-          full_row[@csv_new_header.find_index(key)] = value
+          begin
+            full_row[@csv_new_header.find_index(key)] = value
+          rescue
+            full_row << value
+          end
         end
         @csv_new_file << full_row
       end
@@ -105,10 +112,10 @@ module FixClientsInfo
 
     def build_header
       arr = @csv_loaded_header.clone
-      arr << "Street"
+      arr << "Street 1"
       arr << "City"
       arr << "State"
-      arr << "ZipCode"
+      arr << "ZIP Code"
       arr << "Country"
       arr << "Phone"
       arr << "Principal Business"
@@ -116,10 +123,11 @@ module FixClientsInfo
       arr << "Buying Influence"
       arr << "Number of Employees"
       arr << "Annual Sales Volume"
+      arr << "Web Site"
       @csv_new_header = arr
     end
 
-    private :file?, :build_header
+    private :file?, :build_header, :create
 
   end
 end
