@@ -74,8 +74,12 @@ module FixClientsInfo
         hash_notes.each do |note, value|
           unless (value.nil?)
             # if e-mail happenz and we have already email then write it to email 2 field.. otherwise write directly to email field
-            if(value == "E-mail Address" && not(current_row[value].nil? || (current_row[value].include? "empt")))
+            if(note == "E-mail Address" && not(current_row[note].nil? || (current_row[note].include? "empt")))
               current_row["E-mail 2 Address"] = value
+            elsif(note == "Zip")
+              current_row["ZIP Code"] = value
+            elsif(note == "Address 1")
+              current_row["Street 1"] = value
             else
               current_row[note] = value
             end
